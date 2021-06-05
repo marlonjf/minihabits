@@ -8,7 +8,7 @@ module Users
 
     def call
       user = User.create(user_params)
-      return context.fail! unless user.persisted?
+      return context.fail!(error: user.errors.full_messages) unless user.persisted?
 
       context.user = user
     end

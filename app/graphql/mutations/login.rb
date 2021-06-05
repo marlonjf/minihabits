@@ -1,22 +1,27 @@
 module Mutations
-  class RegisterUser < BaseMutation
+  class Login < BaseMutation
     argument :email, String, required: true
     argument :password, String, required: true
-    argument :password_confirmation, String, required: true
 
     field :user, Types::UserType, null: true
     field :token, String, null: true
 
-    def resolve(**params)
-      result = register_user(params)
+    def resolve(email:, password:)
+      user = User.find_by(email: email)
+      execution_error(message: 'bad_credentials') if user.blank? || !valid_password?(user, password)
 
-      result.success? ? generate_response(result.user) : execution_error(message: result.error)
+      result = Users::Login.call(user: user)
+      generate_response(result.user)
     end
 
     private
 
     def execution_error(message:)
-      GraphQL::ExecutionError.new(message)
+      raise GraphQL::ExecutionError, message
+    end
+
+    def valid_password?(user, password)
+      Devise::Encryptor.compare(User, user.encrypted_password, password)
     end
 
     def register_user(params)
