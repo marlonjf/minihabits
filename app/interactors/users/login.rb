@@ -6,7 +6,7 @@ module Users
   class Login
     include Interactor
 
-    SECRET = '1234567989'
+    SECRET = ENV.fetch('SECRET_KEY', '6ec182ba53e7fd946e7730c41a9036e59b077041399faaebf8f64fd7ab28d7aacf4fa53289d8a65f')
 
     delegate :user_params, to: :context
 
@@ -21,7 +21,7 @@ module Users
     end
 
     def jwt_payload
-      { uid: context.user.id }
+      { id: context.user.id, exp: Time.current.to_i + 15.minutes.to_i }
     end
   end
 end

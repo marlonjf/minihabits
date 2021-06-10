@@ -7,13 +7,28 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
+    field :user,
+          Types::UserType,
+          null: true
+
     field :habits,
           [Types::HabitType],
-          null: false,
-          description: "Returns a list of habits in the martian library"
+          null: false
+
+    field :goals,
+          [Types::GoalType],
+          null: false
+
+    def user
+      context[:current_user]
+    end
 
     def habits
       Habit.all
+    end
+
+    def goals
+      Goal.all
     end
   end
 end

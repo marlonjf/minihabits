@@ -1,11 +1,13 @@
-marlon = User.create!(
+user = User.create!(
   email: "marlon.jf12@gmail.com",
-  first_name: "Marlon",
+  name: "Marlon",
   last_name: "Jordan"
 )
 
-running = Habit.create!(name: "Running", user: marlon)
-studying = Habit.create!(name: "Studying", user: marlon)
+lose_weight = Goal.create!(name: 'Lose Weight', user: user)
+
+running = Habit.create!(name: "Running", goal: lose_weight)
+studying = Habit.create!(name: "Studying", user: user)
 
 running_scores = Score.create!(habit: Habit.first)
 studying_scores = Score.create!(habit: Habit.first, created_at: 1.week.ago)

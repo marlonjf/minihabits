@@ -10,24 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_014450) do
+ActiveRecord::Schema.define(version: 2021_06_05_194247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "habits", force: :cascade do |t|
+  create_table "goals", force: :cascade do |t|
     t.string "name"
-    t.bigint "user_id", null: false
+    t.integer "target_value"
+    t.string "target_unit"
+    t.date "deadline"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_habits_on_user_id"
+    t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
-  create_table "scores", force: :cascade do |t|
-    t.bigint "habit_id", null: false
+  create_table "habit_scores", force: :cascade do |t|
+    t.bigint "habit_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["habit_id"], name: "index_scores_on_habit_id"
+    t.index ["habit_id"], name: "index_habit_scores_on_habit_id"
+  end
+
+  create_table "habits", force: :cascade do |t|
+    t.string "name"
+    t.bigint "goal_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["goal_id"], name: "index_habits_on_goal_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_03_23_014450) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "habits", "users"
-  add_foreign_key "scores", "habits"
+  add_foreign_key "goals", "users"
+  add_foreign_key "habit_scores", "habits"
+  add_foreign_key "habits", "goals"
 end

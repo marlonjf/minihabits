@@ -30,9 +30,8 @@ module Mutations
 
     def generate_response(user)
       # generate_auth_headers(user)
-
       {
-        user: user, token: '15315s156a1s561sd56' #SharedDomain::JsonWebToken.encode({ uid: user.id })
+        user: user, token: user.refresh_token
       }
     end
   end
