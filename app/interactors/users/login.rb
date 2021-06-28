@@ -21,7 +21,7 @@ module Users
     end
 
     def jwt_payload
-      { id: context.user.id, exp: Time.current.to_i + 15.minutes.to_i }
+      { id: context.user.id, exp: Time.current.to_i + 7.days.to_i }
     end
   end
 end

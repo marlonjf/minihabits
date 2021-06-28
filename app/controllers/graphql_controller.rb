@@ -23,8 +23,8 @@ class GraphqlController < ApplicationController
 
   def decoded_current
     @decoded_current ||= Users::Auth.call!(headers: request.headers)
-  rescue Interactor::Failure
-    nil # Context is nil if we have no user
+  rescue Interactor::Failure, GraphQL::ExecutionError
+    nil
   end
 
   private

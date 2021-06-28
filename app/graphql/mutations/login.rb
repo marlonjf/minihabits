@@ -11,6 +11,8 @@ module Mutations
       execution_error(message: 'bad_credentials') if user.blank? || !valid_password?(user, password)
 
       result = Users::Login.call(user: user)
+      graphql_error(result) if result.failure?
+
       generate_response(result.user)
     end
 

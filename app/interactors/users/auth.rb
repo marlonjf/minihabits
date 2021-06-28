@@ -9,12 +9,12 @@ module Users
     delegate :headers, to: :context
 
     def call
-      return unless headers['Authorization']
+      return unless headers['Authorization'].present?
 
       decoded = JWT.decode(headers['Authorization'], Users::Login::SECRET, true, algorithm: 'HS256').first
       find_user(decoded['id'])
-    rescue
-      [GraphQL::ExecutionError, I18n.t('errors.messages.not_found')]
+    rescue => e
+      raise GraphQL::ExecutionError, e.message
     end
 
     private
