@@ -11,7 +11,7 @@ module Types
           Types::UserType,
           null: true
 
-    field :habits,
+    field :user_habits,
           [Types::HabitType],
           null: false
 
@@ -23,8 +23,8 @@ module Types
       context[:current_user]
     end
 
-    def habits
-      Habit.all
+    def user_habits
+      user.habits
     end
 
     def goals

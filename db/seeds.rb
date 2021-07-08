@@ -1,13 +1,16 @@
 user = User.create!(
-  email: "marlon.jf12@gmail.com",
-  name: "Marlon",
-  last_name: "Jordan"
+  email: 'marlon.jf12@gmail.com',
+  name: 'Marlon',
+  last_name: 'Jordan'
 )
 
-lose_weight = Goal.create!(name: 'Lose Weight', user: user)
+goals = {
+  'Lose Weight' => ['Running', 'Gym', 'Eat Health'],
+  'Read More' => ['Buy Books', 'Kindle', 'Read Everyday'],
+  'Travel' => ['Buy Ticket', 'Plan', 'Vacation'],
+}
 
-running = Habit.create!(name: "Running", goal: lose_weight)
-studying = Habit.create!(name: "Studying", user: user)
-
-running_scores = Score.create!(habit: Habit.first)
-studying_scores = Score.create!(habit: Habit.first, created_at: 1.week.ago)
+goals.each do |goal, habits|
+  goal = user.goals.create!(name: goal)
+  habits.map { |habit| goal.habits.create(name: habit) }
+end
