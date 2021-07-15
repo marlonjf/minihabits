@@ -15,7 +15,7 @@ module Types
           [Types::HabitType],
           null: false
 
-    field :goals,
+    field :user_goals,
           [Types::GoalType],
           null: false
 
@@ -27,8 +27,8 @@ module Types
       user.habits
     end
 
-    def goals
-      Goal.all
+    def user_goals
+      user.goals
     end
   end
 end
